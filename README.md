@@ -1,7 +1,7 @@
 Group Information
 ------------------
 
-### Group Number : Graph 58
+### Group Number : Binpack 25
 
 ### Group Members
 + Adam Podolak | podola2@mcmaster.ca 
