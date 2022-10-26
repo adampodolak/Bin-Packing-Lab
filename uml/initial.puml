@@ -44,6 +44,10 @@ package macpacking {
             # _process(c: Int, stream: Iterator[Int])
         }
 
+        class TerriblePacker extends Online {
+            # _process(stream: Iterator[Int])
+        }
+
         NextFit_On <. NextFit_Off 
     }
 
