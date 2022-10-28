@@ -26,3 +26,43 @@ class TerriblePacker(Online):
         for w in stream:
             solution.append([w])
         return solution
+
+
+class FirstFit(Online):
+
+    def _process(self, stream: WeightStream, capacity:int) -> Solution:
+        solution = [[]]
+        remaining = capacity
+        for w in stream:
+            remaining -= w
+            if remaining<0:
+                solution.append([w])
+                remaining = capacity - w
+            else:
+                solution[len(solution)-1].append(w)         
+        
+        
+class BestFit(Online):
+
+    def _process(self, stream: WeightStream, capacity:int) -> Solution:
+        solution = [[]]
+        remaining = []
+        for w in stream:
+            assigned = False
+            for room in range(len(remaining)):
+                if remaining[room] + w <= capacity:
+                    solution[room].append(w)
+                    remaining[room] += w
+                    assigned = True
+                    break
+            if not assigned:
+                solution.append([w]) 
+                remaining.append(w)   
+
+
+class WorstFit(Online):
+
+    def _process(self, stream: WeightStream, capacity:int) -> Solution:
+        #isnt this just the terrible packer?
+        #maybe ensure that we account for when numItems>numBins
+        pass

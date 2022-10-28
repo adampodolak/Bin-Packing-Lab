@@ -29,9 +29,9 @@ class BestFitDecreasing(Offline):
         weights = sorted(weights, reverse=True)
         delegation = Bf_online()
         return delegation((capacity, weights))
+        
 
-
-class BestFitDecreasing(Offline):
+class WorstFitDecreasing(Offline):
 
     def _process(self, capacity: int, weights: WeightSet) -> Solution:
         weights = sorted(weights, reverse=True)
