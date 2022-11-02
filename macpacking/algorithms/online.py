@@ -7,21 +7,21 @@ class NextFit(Online):
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
         solution = [[]]
-        remaining = capacity
+        currcapacity = capacity
         for w in stream:
-            if remaining >= w:
+            if currcapacity >= w:
                 solution[bin_index].append(w)
-                remaining = remaining - w
+                currcapacity = currcapacity - w
             else:
                 bin_index += 1
                 solution.append([w])
-                remaining = capacity - w
+                currcapacity = capacity - w
         return solution
 
 
 class TerriblePacker(Online):
 
-    def _process(self, stream: WeightStream) -> Solution:
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = []
         for w in stream:
             solution.append([w])
@@ -30,39 +30,60 @@ class TerriblePacker(Online):
 
 class FirstFit(Online):
 
-    def _process(self, stream: WeightStream, capacity:int) -> Solution:
+    def _process(self, capacity:int, stream: WeightStream) -> Solution:
         solution = [[]]
-        remaining = capacity
-        for w in stream:
-            remaining -= w
-            if remaining<0:
-                solution.append([w])
-                remaining = capacity - w
-            else:
-                solution[len(solution)-1].append(w)         
-        
-        
-class BestFit(Online):
-
-    def _process(self, stream: WeightStream, capacity:int) -> Solution:
-        solution = [[]]
-        remaining = []
+        currcapacity = []
         for w in stream:
             assigned = False
-            for room in range(len(remaining)):
-                if remaining[room] + w <= capacity:
+            for room in range(len(currcapacity)):
+                if currcapacity[room] + w <= capacity:
                     solution[room].append(w)
-                    remaining[room] += w
+                    currcapacity[room] += w
                     assigned = True
                     break
             if not assigned:
                 solution.append([w]) 
-                remaining.append(w)   
+                currcapacity.append(w)   
+        
+
+class BestFit(Online):
+
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
+        solution = [[]]
+        currcapacity = []
+        for w in stream:
+            bestsize = 0
+            bestindex = 0
+            for room in range(len(solution)):
+                if currcapacity[room] + w <= capacity and currcapacity[room] + w > bestsize:
+                    bestindex = room
+                    bestsize = currcapacity[room] + w
+
+            if bestsize ==0:
+                solution.append([w]) 
+                currcapacity.append(w)  
+            else:
+                solution[bestindex].append(w)
+                currcapacity[bestindex] += w
 
 
 class WorstFit(Online):
 
-    def _process(self, stream: WeightStream, capacity:int) -> Solution:
-        #isnt this just the terrible packer?
-        #maybe ensure that we account for when numItems>numBins
-        pass
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
+        solution = [[]]
+        currcapacity = []
+        for w in stream:
+            bestsize = 100
+            bestindex = 0
+            for room in range(len(solution)):
+                if currcapacity[room] + w <= capacity and currcapacity[room] + w < bestsize:
+                    bestindex = room
+                    bestsize = currcapacity[room] + w
+
+            if bestsize ==100:
+                solution.append([w]) 
+                currcapacity.append(w)  
+            else:
+                solution[bestindex].append(w)
+                currcapacity[bestindex] += w 
+            
