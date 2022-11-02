@@ -30,6 +30,5 @@ def run_bench(cases: list[str]):
         binpacker = NextFit()
         runner.bench_func(name, binpacker, data)
 
-
 if __name__ == "__main__":
     main()

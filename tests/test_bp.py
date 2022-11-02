@@ -1,5 +1,6 @@
+from unittest import result
 from macpacking.algorithms.baseline import BenMaier
-from macpacking.algorithms.online import TerriblePacker
+from macpacking.algorithms.online import BestFit, FirstFit, TerriblePacker
 from macpacking.model import Offline, Online
 from macpacking.reader import BinppReader, DatasetReader, JBurkardtReader
 
@@ -25,4 +26,27 @@ def test_terrible():
     stream = reader.online()[1]
     packer: Online = TerriblePacker()
     packer_result = packer._process(stream)
+    assert result == packer_result
+
+def test_ffonline():
+    weights_input =  '_datasets/jburkardt/p01_w.txt'
+    capacity_input = '_datasets\jburkardt\p01_c.txt'
+    result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
+    reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
+    capacity = reader.online()[0]
+    stream = reader.online()[1]
+    packer: Online = FirstFit()
+    packer_result = packer._process(capacity, stream)
+    assert result == packer_result
+
+
+def test_bfonline():
+    weights_input =  '_datasets/jburkardt/p01_w.txt'
+    capacity_input = '_datasets/jburkardt/p01_c.txt'
+    result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
+    reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
+    capacity = reader.online()[0]
+    stream = reader.online()[1]
+    packer: Online = BestFit()
+    packer_result = packer._process(capacity, stream)
     assert result == packer_result

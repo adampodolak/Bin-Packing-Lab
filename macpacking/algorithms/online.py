@@ -21,7 +21,7 @@ class NextFit(Online):
 
 class TerriblePacker(Online):
 
-    def _process(self, stream: WeightStream) -> Solution:
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = []
         for w in stream:
             solution.append([w])
@@ -30,7 +30,7 @@ class TerriblePacker(Online):
 
 class FirstFit(Online):
 
-    def _process(self, stream: WeightStream, capacity:int) -> Solution:
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = [[]]
         remaining = capacity
         for w in stream:
@@ -39,12 +39,13 @@ class FirstFit(Online):
                 solution.append([w])
                 remaining = capacity - w
             else:
-                solution[len(solution)-1].append(w)         
+                solution[len(solution)-1].append(w)
+        return solution      
         
         
 class BestFit(Online):
 
-    def _process(self, stream: WeightStream, capacity:int) -> Solution:
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = [[]]
         remaining = []
         for w in stream:
@@ -57,12 +58,11 @@ class BestFit(Online):
                     break
             if not assigned:
                 solution.append([w]) 
-                remaining.append(w)   
+                remaining.append(w)
+        return solution 
 
 
 class WorstFit(Online):
 
-    def _process(self, stream: WeightStream, capacity:int) -> Solution:
-        #isnt this just the terrible packer?
-        #maybe ensure that we account for when numItems>numBins
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
         pass
