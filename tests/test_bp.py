@@ -41,10 +41,12 @@ def test_ffonline():
 
 
 def test_bfonline():
-    weights_input =  '_datasets/jburkardt/p01_w.txt'
-    capacity_input = '_datasets/jburkardt/p01_c.txt'
+    weights_input =  '_datasets/jburkardt/p02_w.txt'
+    capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
+    print("TESTING")
+    print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = BestFit()
@@ -53,10 +55,12 @@ def test_bfonline():
     return packer_result
 
 def test_wfonline():
-    weights_input =  '_datasets/jburkardt/p01_w.txt'
-    capacity_input = '_datasets/jburkardt/p01_c.txt'
+    weights_input =  '_datasets/jburkardt/p02_w.txt'
+    capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
+    print("TESTING")
+    print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = WorstFit()
