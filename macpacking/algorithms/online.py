@@ -44,12 +44,13 @@ class FirstFit(Online):
             if not assigned:
                 solution.append([w]) 
                 currcapacity.append(w)   
+        return solution
         
 
 class BestFit(Online):
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
-        solution = [[]]
+        solution = []
         currcapacity = []
         for w in stream:
             bestsize = 0
@@ -65,25 +66,29 @@ class BestFit(Online):
             else:
                 solution[bestindex].append(w)
                 currcapacity[bestindex] += w
+        return solution
 
 
 class WorstFit(Online):
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
-        solution = [[]]
+        solution = []
         currcapacity = []
         for w in stream:
-            bestsize = 100
+            bestsize = capacity +1
             bestindex = 0
             for room in range(len(solution)):
                 if currcapacity[room] + w <= capacity and currcapacity[room] + w < bestsize:
                     bestindex = room
                     bestsize = currcapacity[room] + w
 
-            if bestsize ==100:
+            if bestsize ==capacity +1:
                 solution.append([w]) 
                 currcapacity.append(w)  
             else:
                 solution[bestindex].append(w)
                 currcapacity[bestindex] += w 
+
+
+        return solution
             
