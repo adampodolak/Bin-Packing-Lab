@@ -5,10 +5,9 @@ from macpacking.algorithms.online import NextFit
 from macpacking.reader import BinppReader
 from macpacking.algorithms.online import FirstFit, BestFit
 
-# We consider:
-#   - 500 objects (N4)
-#   - bin capacity of 120 (C2)
-#   - and weight in the [20,100] interval (W2)
+
+
+
 CASES = './_datasets/binpp/N4C2W2'
 
 

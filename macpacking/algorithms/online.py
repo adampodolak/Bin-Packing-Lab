@@ -45,7 +45,10 @@ class FirstFit(Online):
                 solution.append([w]) 
                 currcapacity.append(w)   
         return solution
+<<<<<<< HEAD
         
+=======
+>>>>>>> 45d47dc16f0a0ac68e9c223029f6ae2f5cdfa7e5
 
 class BestFit(Online):
 
@@ -56,18 +59,22 @@ class BestFit(Online):
             bestsize = 0
             bestindex = 0
             for room in range(len(solution)):
+                print(currcapacity[room], w)
                 if currcapacity[room] + w <= capacity and currcapacity[room] + w > bestsize:
                     bestindex = room
                     bestsize = currcapacity[room] + w
 
-            if bestsize ==0:
+            if bestsize == 0:
                 solution.append([w]) 
                 currcapacity.append(w)  
             else:
                 solution[bestindex].append(w)
                 currcapacity[bestindex] += w
         return solution
+<<<<<<< HEAD
 
+=======
+>>>>>>> 45d47dc16f0a0ac68e9c223029f6ae2f5cdfa7e5
 
 class WorstFit(Online):
 
@@ -75,20 +82,32 @@ class WorstFit(Online):
         solution = []
         currcapacity = []
         for w in stream:
+<<<<<<< HEAD
             bestsize = capacity +1
+=======
+            bestsize = capacity
+>>>>>>> 45d47dc16f0a0ac68e9c223029f6ae2f5cdfa7e5
             bestindex = 0
             for room in range(len(solution)):
                 if currcapacity[room] + w <= capacity and currcapacity[room] + w < bestsize:
                     bestindex = room
                     bestsize = currcapacity[room] + w
 
+<<<<<<< HEAD
             if bestsize ==capacity +1:
+=======
+            if bestsize == 100:
+>>>>>>> 45d47dc16f0a0ac68e9c223029f6ae2f5cdfa7e5
                 solution.append([w]) 
                 currcapacity.append(w)  
             else:
                 solution[bestindex].append(w)
                 currcapacity[bestindex] += w 
+<<<<<<< HEAD
 
 
         return solution
             
+=======
+        return solution
+>>>>>>> 45d47dc16f0a0ac68e9c223029f6ae2f5cdfa7e5
