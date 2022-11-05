@@ -4,6 +4,7 @@ from .online import NextFit as Nf_online
 from .online import FirstFit as Ff_online
 from .online import BestFit as Bf_online
 from .online import WorstFit as Wf_online
+from .online import RefinedFirstFit as RFF_online
 
 class NextFit(Offline):
 
@@ -36,5 +37,12 @@ class WorstFitDecreasing(Offline):
     def _process(self, capacity: int, weights: WeightSet) -> Solution:
         weights = sorted(weights, reverse=True)
         delegation = Wf_online()
+        return delegation((capacity, weights))
+
+class RefinedFirstFitDecreasing(Offline):
+
+    def _process(self, capacity: int, weights: WeightSet) -> Solution:
+        weights = sorted(weights, reverse=True)
+        delegation = RFF_online()
         return delegation((capacity, weights))
 

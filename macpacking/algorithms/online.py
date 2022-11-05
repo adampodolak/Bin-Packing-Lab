@@ -1,5 +1,6 @@
 from .. import Solution, WeightStream
 from ..model import Online
+from ..T4Reader import T4Reader
 
 
 class NextFit(Online):
@@ -89,5 +90,30 @@ class WorstFit(Online):
             else:
                 solution[bestindex].append(w)
                 currcapacity[bestindex] += w 
+        return solution
+
+class RefinedFirstFit(Online):
+
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
+        sizes = T4Reader.normalize(capacity, stream)
+        print (sizes)
+        solution = [[]]
+        binCounter = 0
+        maxFit = len(sizes) +1
+        for category in sizes:
+            maxFit -=1
+            temp = maxFit
+            for object in category:
+                solution[binCounter].append(object)
+                temp -=1
+                if temp == 0:
+                    solution.append([])
+                    binCounter +=1
+                    temp = maxFit
+            if solution[binCounter]:
+                solution.append([])
+                binCounter+=1
+        if not solution[len(solution)-1]:
+            solution.pop()
         return solution
             

@@ -1,6 +1,6 @@
 from unittest import result
 from macpacking.algorithms.baseline import BenMaier
-from macpacking.algorithms.online import BestFit, FirstFit, TerriblePacker, WorstFit
+from macpacking.algorithms.online import BestFit, FirstFit, TerriblePacker, WorstFit, RefinedFirstFit
 from macpacking.model import Offline, Online
 from macpacking.reader import BinppReader, DatasetReader, JBurkardtReader
 
@@ -45,8 +45,8 @@ def test_bfonline():
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    print("TESTING")
-    print(reader.offline())
+    # print("TESTING")
+    # print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = BestFit()
@@ -59,8 +59,8 @@ def test_wfonline():
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    print("TESTING")
-    print(reader.offline())
+    # print("TESTING")
+    # print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = WorstFit()
@@ -68,6 +68,19 @@ def test_wfonline():
     #assert result == packer_result
     return packer_result
 
+def test_RFFonline():
+    weights_input =  '_datasets/jburkardt/p02_w.txt'
+    capacity_input = '_datasets/jburkardt/p02_c.txt'
+    result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
+    reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
+    # print("TESTING")
+    # print(reader.offline())
+    capacity = reader.offline()[0]
+    stream = reader.offline()[1]
+    packer: Offline = RefinedFirstFit()
+    packer_result = packer._process(capacity, stream)
+    #assert result == packer_result
+    return packer_result
 
-print(test_bfonline())
-print(test_wfonline())
+
+print(test_RFFonline())
