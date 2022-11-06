@@ -1,7 +1,8 @@
 from unittest import result
 from macpacking.algorithms.baseline import BenMaier
-from macpacking.algorithms.online import BestFit, FirstFit, TerriblePacker, WorstFit, RefinedFirstFit
-from macpacking.model import Offline, Online
+from macpacking.algorithms.online import BestFit, FirstFit, TerriblePacker, WorstFit, RefinedFirstFit, FixedCapacityWF
+from macpacking.algorithms.offline import FixedCapacityBaseLine
+from macpacking.model import Offline, Online, OnlineT5, OfflineT5
 from macpacking.reader import BinppReader, DatasetReader, JBurkardtReader
 
 def test_baseline():
@@ -44,11 +45,8 @@ def test_bfonline():
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-<<<<<<< HEAD
     # print("TESTING")
     # print(reader.offline())
-=======
->>>>>>> b806185669d60bbfe0a035a67a266228305c77a0
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = BestFit()
@@ -61,11 +59,8 @@ def test_wfonline():
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-<<<<<<< HEAD
     # print("TESTING")
     # print(reader.offline())
-=======
->>>>>>> b806185669d60bbfe0a035a67a266228305c77a0
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = WorstFit()
@@ -87,10 +82,6 @@ def test_RFFonline():
     #assert result == packer_result
     return packer_result
 
-<<<<<<< HEAD
-
-print(test_RFFonline())
-=======
 def test_ffonline():
     dataset = '_datasets/binpp/N1C1W1/N1C1W1_B.BPP.txt'
     result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
@@ -101,7 +92,31 @@ def test_ffonline():
     packer_result = packer._process(capacity, stream)
     return packer_result
 
-print(test_bfonline())
-print(test_wfonline())
-print(test_ffonline())
->>>>>>> b806185669d60bbfe0a035a67a266228305c77a0
+def test_FixedCapacityWF_online():
+    dataset = '_datasets/binpp/N1C1W1/N1C1W1_B.BPP.txt'
+    result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
+    reader: DatasetReader = BinppReader(dataset)
+    stream = reader.online()[1]
+    packer: OnlineT5 = FixedCapacityWF()
+    packer_result = packer._process(stream, 5)
+    return packer_result
+
+def test_FixedCapacityBaseLine_Offline():
+    dataset = '_datasets/binpp/N1C1W1/N1C1W1_B.BPP.txt'
+    result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
+    reader: DatasetReader = BinppReader(dataset)
+    stream = reader.offline()[1]
+    packer: OfflineT5 = FixedCapacityBaseLine()
+    packer_result = packer._process(stream, 5)
+    return packer_result
+
+print("baseLine")
+a=test_FixedCapacityBaseLine_Offline()
+print (a)
+for i in a:
+    print(sum(i))
+print("mine")
+b = test_FixedCapacityWF_online()
+print (b)
+for i in b:
+    print(sum(i))

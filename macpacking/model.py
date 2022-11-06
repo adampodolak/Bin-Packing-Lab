@@ -27,3 +27,24 @@ class Offline(BinPacker):
     @abstractmethod
     def _process(self, c: int, weights: list[int]) -> Solution:
         pass
+
+class OnlineT5(BinPacker):
+
+    def __call__(self, ws: WeightStream):
+        stream = ws[1]
+        return self._process(stream)
+
+    @abstractmethod
+    def _process(self, stream: Iterator[int], numOfBins) -> Solution:
+        pass
+
+
+class OfflineT5(BinPacker):
+
+    def __call__(self, ws: WeightSet):
+        weights = ws[1]
+        return self._process(weights)
+
+    @abstractmethod
+    def _process(self, weights: list[int], numOfBins) -> Solution:
+        pass

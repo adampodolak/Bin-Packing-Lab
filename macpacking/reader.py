@@ -60,17 +60,8 @@ class JBurkardtReader(DatasetReader):
         with open(cfile, 'r') as capacity_reader, open(wfile, 'r') as w_reader:
             capacity: int = int(capacity_reader.readline())
             weights: list[int] = []
-<<<<<<< HEAD
-            while True:
-                hold = w_reader.readline().strip('\n').strip()
-                if not hold:
-                    break
-                else:
-                    weights.append(int(hold))
-=======
             for line in w_reader:
                 if line.strip() != '':
                     weights.append(int(line.strip()))
->>>>>>> b806185669d60bbfe0a035a67a266228305c77a0
             return (capacity, weights)
 

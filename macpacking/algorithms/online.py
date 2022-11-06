@@ -1,6 +1,7 @@
 from .. import Solution, WeightStream
-from ..model import Online
+from ..model import Online, OnlineT5
 from ..T4Reader import T4Reader
+
 
 
 class NextFit(Online):
@@ -115,3 +116,29 @@ class RefinedFirstFit(Online):
             solution.pop()
         return solution
             
+class FixedCapacityWF(OnlineT5):
+
+    def _process(self, stream: WeightStream, numOfBins:int) -> Solution:
+        solution = []
+        currcapacity = []
+        for i in range(numOfBins):
+            solution.append([])
+            currcapacity.append(0)
+        for w in stream:
+            bestsize = 1000 #arbitrary large num
+            bestindex = 0
+            for room in range(numOfBins):
+                if currcapacity[room] + w < bestsize:
+                    bestindex = room
+                    bestsize = currcapacity[room] + w
+
+            if bestsize != 1000:
+                solution[bestindex].append(w)
+                currcapacity[bestindex] += w 
+            else:
+                if len(solution)<= numOfBins:
+                    solution.append([w]) 
+                    currcapacity.append(w)  
+                else:
+                    return "cannot fit all objects into bins"
+        return solution

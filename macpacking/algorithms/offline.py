@@ -1,10 +1,11 @@
 from .. import Solution, WeightSet
-from ..model import Offline
+from ..model import Offline, OfflineT5
 from .online import NextFit as Nf_online
 from .online import FirstFit as Ff_online
 from .online import BestFit as Bf_online
 from .online import WorstFit as Wf_online
 from .online import RefinedFirstFit as RFF_online
+import binpacking as bp
 
 class NextFit(Offline):
 
@@ -46,3 +47,8 @@ class RefinedFirstFitDecreasing(Offline):
         delegation = RFF_online()
         return delegation((capacity, weights))
 
+class FixedCapacityBaseLine(OfflineT5):
+
+     def _process(self, weights: WeightSet, numOfBins:int) -> Solution:
+        bins = bp.to_constant_bin_number(weights,numOfBins)
+        return bins
