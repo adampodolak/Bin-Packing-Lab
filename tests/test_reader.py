@@ -21,4 +21,3 @@ def test_jburkardt_reader():
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
     assert capacity == reader.offline()[0]
     assert weights == sorted(reader.offline()[1])
-

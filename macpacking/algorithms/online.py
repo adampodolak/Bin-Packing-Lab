@@ -56,7 +56,6 @@ class BestFit(Online):
             bestsize = 0
             bestindex = 0
             for room in range(len(solution)):
-                print(currcapacity[room], w)
                 if currcapacity[room] + w <= capacity and currcapacity[room] + w > bestsize:
                     bestindex = room
                     bestsize = currcapacity[room] + w
@@ -76,7 +75,7 @@ class WorstFit(Online):
         solution = []
         currcapacity = []
         for w in stream:
-            bestsize = capacity +1
+            bestsize = capacity + 1
             bestindex = 0
             for room in range(len(solution)):
                 if currcapacity[room] + w <= capacity and currcapacity[room] + w < bestsize:

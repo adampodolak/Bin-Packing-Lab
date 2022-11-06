@@ -28,25 +28,22 @@ def test_terrible():
     packer_result = packer._process(stream)
     assert result == packer_result
 
-def test_ffonline():
-    weights_input =  '_datasets/jburkardt/p01_w.txt'
-    capacity_input = '_datasets\jburkardt\p01_c.txt'
-    result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
-    reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    capacity = reader.online()[0]
-    stream = reader.online()[1]
-    packer: Online = FirstFit()
-    packer_result = packer._process(capacity, stream)
-    assert result == packer_result
-
+# def test_ffonline():
+#     weights_input =  '_datasets/jburkardt/p01_w.txt'
+#     capacity_input = '_datasets\jburkardt\p01_c.txt'
+#     result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
+#     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
+#     capacity = reader.online()[0]
+#     stream = reader.online()[1]
+#     packer: Online = FirstFit()
+#     packer_result = packer._process(capacity, stream)
+#     return packer_result
 
 def test_bfonline():
     weights_input =  '_datasets/jburkardt/p02_w.txt'
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    print("TESTING")
-    print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = BestFit()
@@ -59,8 +56,6 @@ def test_wfonline():
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    print("TESTING")
-    print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = WorstFit()
@@ -69,5 +64,16 @@ def test_wfonline():
     return packer_result
 
 
+def test_ffonline():
+    dataset = '_datasets/binpp/N1C1W1/N1C1W1_B.BPP.txt'
+    result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
+    reader: DatasetReader = BinppReader(dataset)
+    capacity = reader.online()[0]
+    stream = reader.online()[1]
+    packer: Online = FirstFit()
+    packer_result = packer._process(capacity, stream)
+    return packer_result
+
 print(test_bfonline())
 print(test_wfonline())
+print(test_ffonline())
