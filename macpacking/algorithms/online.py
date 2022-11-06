@@ -96,7 +96,6 @@ class RefinedFirstFit(Online):
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         sizes = T4Reader.normalize(capacity, stream)
-        print (sizes)
         solution = [[]]
         binCounter = 0
         maxFit = len(sizes) +1
