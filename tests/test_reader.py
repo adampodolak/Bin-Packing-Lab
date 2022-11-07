@@ -1,6 +1,7 @@
 from macpacking.reader import DatasetReader, BinppReader, JBurkardtReader
 import pytest
 
+
 def test_binpp_reader():
     dataset = '_datasets/binpp/N1C1W1/N1C1W1_B.BPP.txt'
     capacity = 100
@@ -12,6 +13,7 @@ def test_binpp_reader():
     reader: DatasetReader = BinppReader(dataset)
     assert capacity == reader.offline()[0]
     assert oracle == sorted(reader.offline()[1])
+
 
 def test_jburkardt_reader():
     capacity_input = '_datasets/jburkardt/p01_c.txt'
