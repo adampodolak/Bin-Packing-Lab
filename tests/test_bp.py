@@ -35,28 +35,22 @@ def test_bfonline():
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    # print("TESTING")
-    # print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = BestFit()
     packer_result = packer._process(capacity, stream)
-    #assert result == packer_result
-    return packer_result
+    assert result == packer_result
 
 def test_wfonline():
     weights_input =  '_datasets/jburkardt/p02_w.txt'
     capacity_input = '_datasets/jburkardt/p02_c.txt'
     result = [[11, 7, 33, 3], [33, 33], [50], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-    # print("TESTING")
-    # print(reader.offline())
     capacity = reader.online()[0]
     stream = reader.online()[1]
     packer: Online = WorstFit()
     packer_result = packer._process(capacity, stream)
-    #assert result == packer_result
-    return packer_result
+    assert result == packer_result
 
 def test_RFFonline():
     weights_input =  '_datasets/jburkardt/p02_w.txt'
