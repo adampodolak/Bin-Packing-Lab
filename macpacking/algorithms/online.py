@@ -3,7 +3,6 @@ from ..model import Online, OnlineT5
 from ..T4Reader import T4Reader
 
 
-
 class NextFit(Online):
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
@@ -32,7 +31,7 @@ class TerriblePacker(Online):
 
 class FirstFit(Online):
 
-    def _process(self, capacity:int, stream: WeightStream) -> Solution:
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = [[]]
         currcapacity = []
         for w in stream:
@@ -44,8 +43,8 @@ class FirstFit(Online):
                     assigned = True
                     break
             if not assigned:
-                solution.append([w]) 
-                currcapacity.append(w)   
+                solution.append([w])
+                currcapacity.append(w)
         return solution
 
 
@@ -58,13 +57,14 @@ class BestFit(Online):
             bestsize = 0
             bestindex = 0
             for room in range(len(solution)):
-                if currcapacity[room] + w <= capacity and currcapacity[room] + w > bestsize:
+                if currcapacity[room] + w <= capacity and (
+                        currcapacity[room] + w > bestsize):
                     bestindex = room
                     bestsize = currcapacity[room] + w
 
             if bestsize == 0:
-                solution.append([w]) 
-                currcapacity.append(w)  
+                solution.append([w])
+                currcapacity.append(w)
             else:
                 solution[bestindex].append(w)
                 currcapacity[bestindex] += w
@@ -80,17 +80,19 @@ class WorstFit(Online):
             bestsize = capacity + 1
             bestindex = 0
             for room in range(len(solution)):
-                if currcapacity[room] + w <= capacity and currcapacity[room] + w < bestsize:
+                if currcapacity[room] + w <= capacity and (
+                        currcapacity[room] + w < bestsize):
                     bestindex = room
                     bestsize = currcapacity[room] + w
 
-            if bestsize ==capacity +1:
-                solution.append([w]) 
-                currcapacity.append(w)  
+            if bestsize == capacity + 1:
+                solution.append([w])
+                currcapacity.append(w)
             else:
                 solution[bestindex].append(w)
-                currcapacity[bestindex] += w 
+                currcapacity[bestindex] += w
         return solution
+
 
 class RefinedFirstFit(Online):
 
@@ -98,34 +100,35 @@ class RefinedFirstFit(Online):
         sizes = T4Reader.normalize(capacity, stream)
         solution = [[]]
         binCounter = 0
-        maxFit = len(sizes) +1
+        maxFit = len(sizes) + 1
         for category in sizes:
-            maxFit -=1
+            maxFit -= 1
             temp = maxFit
             for object in category:
                 solution[binCounter].append(object)
-                temp -=1
+                temp -= 1
                 if temp == 0:
                     solution.append([])
-                    binCounter +=1
+                    binCounter += 1
                     temp = maxFit
             if solution[binCounter]:
                 solution.append([])
-                binCounter+=1
-        if not solution[len(solution)-1]:
+                binCounter += 1
+        if not solution[len(solution) - 1]:
             solution.pop()
         return solution
-            
+
+
 class FixedCapacityWF(OnlineT5):
 
-    def _process(self, stream: WeightStream, numOfBins:int) -> Solution:
+    def _process(self, stream: WeightStream, numOfBins: int) -> Solution:
         solution = []
         currcapacity = []
         for i in range(numOfBins):
             solution.append([])
             currcapacity.append(0)
         for w in stream:
-            bestsize = 1000 #arbitrary large num
+            bestsize = 1000  # arbitrary large num
             bestindex = 0
             for room in range(numOfBins):
                 if currcapacity[room] + w < bestsize:
@@ -134,11 +137,11 @@ class FixedCapacityWF(OnlineT5):
 
             if bestsize != 1000:
                 solution[bestindex].append(w)
-                currcapacity[bestindex] += w 
+                currcapacity[bestindex] += w
             else:
-                if len(solution)<= numOfBins:
-                    solution.append([w]) 
-                    currcapacity.append(w)  
+                if len(solution) <= numOfBins:
+                    solution.append([w])
+                    currcapacity.append(w)
                 else:
                     return "cannot fit all objects into bins"
         return solution

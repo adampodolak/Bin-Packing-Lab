@@ -7,6 +7,7 @@ from .online import WorstFit as Wf_online
 from .online import RefinedFirstFit as RFF_online
 import binpacking as bp
 
+
 class NextFit(Offline):
 
     def _process(self, capacity: int, weights: WeightSet) -> Solution:
@@ -31,7 +32,7 @@ class BestFitDecreasing(Offline):
         weights = sorted(weights, reverse=True)
         delegation = Bf_online()
         return delegation((capacity, weights))
-        
+
 
 class WorstFitDecreasing(Offline):
 
@@ -40,6 +41,7 @@ class WorstFitDecreasing(Offline):
         delegation = Wf_online()
         return delegation((capacity, weights))
 
+
 class RefinedFirstFitDecreasing(Offline):
 
     def _process(self, capacity: int, weights: WeightSet) -> Solution:
@@ -47,8 +49,9 @@ class RefinedFirstFitDecreasing(Offline):
         delegation = RFF_online()
         return delegation((capacity, weights))
 
+
 class FixedCapacityBaseLine(OfflineT5):
 
-     def _process(self, weights: WeightSet, numOfBins:int) -> Solution:
+    def _process(self, weights: WeightSet, numOfBins: int) -> Solution:
         bins = bp.to_constant_bin_number(weights, numOfBins)
         return bins
