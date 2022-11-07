@@ -21,24 +21,14 @@ def test_baseline():
 
 def test_terrible():
     weights_input =  '_datasets/jburkardt/p01_w.txt'
-    capacity_input = '_datasets\jburkardt\p01_c.txt'
+    capacity_input = '_datasets/jburkardt/p01_c.txt'
     result = [[33], [11], [7], [33], [3], [50], [33], [70], [60]]
     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
     stream = reader.online()[1]
     packer: Online = TerriblePacker()
-    packer_result = packer._process(stream)
+    packer_result = packer._process(0, stream)
     assert result == packer_result
 
-# def test_ffonline():
-#     weights_input =  '_datasets/jburkardt/p01_w.txt'
-#     capacity_input = '_datasets\jburkardt\p01_c.txt'
-#     result = [[33, 11, 7, 33, 3], [50, 33], [70], [60]]
-#     reader: DatasetReader = JBurkardtReader(capacity_input, weights_input)
-#     capacity = reader.online()[0]
-#     stream = reader.online()[1]
-#     packer: Online = FirstFit()
-#     packer_result = packer._process(capacity, stream)
-#     return packer_result
 
 def test_bfonline():
     weights_input =  '_datasets/jburkardt/p02_w.txt'
@@ -109,14 +99,3 @@ def test_FixedCapacityBaseLine_Offline():
     packer: OfflineT5 = FixedCapacityBaseLine()
     packer_result = packer._process(stream, 5)
     return packer_result
-
-print("baseLine")
-a=test_FixedCapacityBaseLine_Offline()
-print (a)
-for i in a:
-    print(sum(i))
-print("mine")
-b = test_FixedCapacityWF_online()
-print (b)
-for i in b:
-    print(sum(i))
