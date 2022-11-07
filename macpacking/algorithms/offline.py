@@ -50,5 +50,5 @@ class RefinedFirstFitDecreasing(Offline):
 class FixedCapacityBaseLine(OfflineT5):
 
      def _process(self, weights: WeightSet, numOfBins:int) -> Solution:
-        bins = bp.to_constant_bin_number(weights,numOfBins)
+        bins = bp.to_constant_bin_number(weights, numOfBins)
         return bins
