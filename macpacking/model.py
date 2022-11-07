@@ -28,6 +28,7 @@ class Offline(BinPacker):
     def _process(self, c: int, weights: list[int]) -> Solution:
         pass
 
+
 class OnlineT5(BinPacker):
 
     def __call__(self, ws: WeightStream):
